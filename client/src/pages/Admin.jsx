@@ -67,9 +67,9 @@ function Admin() {
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-blue-400">
             <FiShield /> Super Admin Control Console
           </div>
-          <h2 className="mt-2 text-3xl font-bold">Platform Governance & Security Hub</h2>
+          <h2 className="mt-2 text-3xl font-bold">Platform Governance Hub</h2>
           <p className="mt-2 max-w-2xl text-sm text-slate-300">
-            Monitor platform-wide transacted volumes, audit global user accounts, manage permission roles, and resolve real-time fraud alerts.
+            Monitor platform-wide transacted volumes, manage user accounts, assign admin roles, and review payment entries.
           </p>
         </div>
       </div>
@@ -96,7 +96,7 @@ function Admin() {
 
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
           <div className="flex items-center justify-between text-slate-500">
-            <span className="text-xs font-bold uppercase tracking-wider">Active Fraud Alerts</span>
+            <span className="text-xs font-bold uppercase tracking-wider">Pending Reviews</span>
             <FiAlertTriangle size={18} className="text-amber-500" />
           </div>
           <h3 className="mt-3 text-3xl font-bold text-amber-600">{stats.fraudAlertsCount}</h3>
@@ -109,7 +109,7 @@ function Admin() {
             <FiCheckCircle size={18} className="text-emerald-500" />
           </div>
           <h3 className="mt-3 text-2xl font-bold text-emerald-600">{stats.systemHealth}</h3>
-          <p className="mt-1 text-xs font-semibold text-slate-500">SHA-256 Ledger synced</p>
+          <p className="mt-1 text-xs font-semibold text-slate-500">Database connected & healthy</p>
         </div>
       </div>
 

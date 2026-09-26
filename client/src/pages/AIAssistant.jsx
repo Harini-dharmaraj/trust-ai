@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { FiCpu, FiMessageSquare, FiAward, FiAlertTriangle, FiZap, FiSend, FiCheckCircle, FiInfo } from 'react-icons/fi';
+import { FiCpu, FiMessageSquare, FiDollarSign, FiUsers, FiCheckCircle, FiSend, FiInfo, FiClock, FiArrowRight } from 'react-icons/fi';
 import { useFinance } from '../hooks/useFinance';
 
 function AIAssistant() {
@@ -61,7 +61,7 @@ function AIAssistant() {
     setMessages([
       {
         role: 'assistant',
-        content: `Hello! I am your TrustCircle AI Assistant. I have connected to the ledger for "${activeGroupName}". Ask me about contribution statuses, group balances, spending ratios, or pending votes.`,
+        content: `Hello! I am your Savings Circle AI Assistant for "${activeGroupName}". Ask me about member contributions, pool balances, who has paid, or recent circle expenses!`,
       },
     ]);
   }, [activeGroupId, activeGroupName]);
@@ -108,51 +108,6 @@ function AIAssistant() {
   });
 
   const userPaidTotal = userPayments.reduce((acc, curr) => acc + Number(curr.amount || 0), 0);
-
-  let calculatedTrustScore = 100;
-  let trustTier = 'Verified Member';
-  let trustIndicatorText = '';
-  let trustScoreColor = 'border-emerald-500 text-emerald-600';
-
-  if (requiredPerMember > 0) {
-    if (userPaidTotal >= requiredPerMember) {
-      calculatedTrustScore = 100;
-      trustTier = 'Full Compliance';
-      trustIndicatorText = `Paid ₹${userPaidTotal.toLocaleString()} of ₹${requiredPerMember.toLocaleString()} dues (100% on-time).`;
-      trustScoreColor = 'border-emerald-500 text-emerald-600';
-    } else if (userPaidTotal > 0) {
-      calculatedTrustScore = Math.round((userPaidTotal / requiredPerMember) * 100);
-      trustTier = 'Partial Contributor';
-      trustIndicatorText = `Paid ₹${userPaidTotal.toLocaleString()} of ₹${requiredPerMember.toLocaleString()} (₹${(requiredPerMember - userPaidTotal).toLocaleString()} pending dues).`;
-      trustScoreColor = 'border-amber-500 text-amber-600';
-    } else {
-      calculatedTrustScore = 0;
-      trustTier = 'Contribution Pending';
-      trustIndicatorText = `₹0 contributed towards ₹${requiredPerMember.toLocaleString()} dues.`;
-      trustScoreColor = 'border-rose-500 text-rose-600';
-    }
-  } else {
-    if (userPaidTotal > 0) {
-      calculatedTrustScore = 100;
-      trustTier = 'Active Contributor';
-      trustIndicatorText = `Deposited ₹${userPaidTotal.toLocaleString()} in voluntary contributions.`;
-      trustScoreColor = 'border-blue-500 text-blue-600';
-    } else {
-      calculatedTrustScore = 100;
-      trustTier = 'Good Standing';
-      trustIndicatorText = 'No scheduled dues required for this group.';
-      trustScoreColor = 'border-slate-400 text-slate-500';
-    }
-  }
-
-  // Real audit indicators for expenses & receipts
-  const verifiedReceiptsCount = expenses.filter((e) => Boolean(e.receipt)).length;
-  const duplicateReceiptsAlert = expenses.filter(
-    (e, i, a) => e.receipt && a.findIndex((x) => x.receipt === e.receipt) !== i
-  ).length;
-
-  // Real reserve buffer computation
-  const reserveTarget = currentBalance > 0 ? Math.round(currentBalance * 0.15) : 0;
   
   if (!activeGroupId && groups.length === 0) {
     return (
@@ -183,11 +138,11 @@ function AIAssistant() {
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 text-xs font-bold text-blue-600 uppercase tracking-wider">
-              <FiCpu /> Dynamic AI RAG Financial Intelligence
+              <FiCpu /> Friendly Circle Finance Helper
             </div>
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-1">AI Assistant & Governance Suite</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-1">Savings Circle AI Assistant</h2>
             <p className="text-xs text-slate-500">
-              Live ledger intelligence computed strictly from verified payments, audited disbursements, and active voting records.
+              Instant answers for member contributions, savings pool balances, and circle payouts.
             </p>
           </div>
           {groups.length > 0 && (
@@ -214,100 +169,84 @@ function AIAssistant() {
         </div>
       </div>
 
-      {/* AI Feature Cards */}
+      {/* Circle Summary Cards */}
       <div className="grid gap-4 md:grid-cols-3">
-        {/* Personal Trust Score Card */}
+        {/* Circle Savings Pool Card */}
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase text-slate-400">Personal Trust Score</span>
-            <FiAward size={18} className={calculatedTrustScore >= 80 ? "text-emerald-500" : calculatedTrustScore > 0 ? "text-amber-500" : "text-rose-500"} />
+            <span className="text-xs font-bold uppercase text-slate-400">Circle Savings Pool</span>
+            <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-300">
+              Active Pool
+            </span>
           </div>
-          <div className="mt-3 flex items-center justify-between">
-            <div>
-              <h3 className="text-3xl font-bold text-slate-900 dark:text-white">{calculatedTrustScore}/100</h3>
-              <span className={`text-xs font-bold ${calculatedTrustScore >= 80 ? 'text-emerald-600' : calculatedTrustScore > 0 ? 'text-amber-600' : 'text-rose-600'}`}>
-                {trustTier}
-              </span>
-            </div>
-            <div className={`h-12 w-12 rounded-full border-4 ${trustScoreColor} flex items-center justify-center font-bold text-xs`}>
-              {calculatedTrustScore}%
-            </div>
+          <div className="mt-3">
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
+              ₹{currentBalance.toLocaleString()}
+            </h3>
+            <p className="mt-1 text-xs font-semibold text-slate-500">
+              Available liquid balance
+            </p>
           </div>
-          <p className="mt-2 text-[11px] text-slate-500 leading-normal">
-            {trustIndicatorText}
+          <p className="mt-2.5 text-[11px] text-slate-400 border-t border-slate-100 pt-2 dark:border-slate-800">
+            Collected: ₹{totalCollected.toLocaleString()} • Spent: ₹{totalSpent.toLocaleString()}
           </p>
         </div>
 
-        {/* AI Fraud Risk Scanner Card */}
+        {/* Monthly Target Card */}
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase text-slate-400">AI Fraud Risk Scanner</span>
-            <FiAlertTriangle size={18} className={duplicateReceiptsAlert > 0 ? "text-amber-500" : "text-emerald-500"} />
+            <span className="text-xs font-bold uppercase text-slate-400">Monthly Contribution Target</span>
+            <span className="rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-bold text-blue-600 dark:bg-blue-950/40 dark:text-blue-300">
+              Monthly Cycle
+            </span>
           </div>
-          {duplicateReceiptsAlert > 0 ? (
-            <div>
-              <h3 className="mt-3 text-xl font-bold text-amber-600 flex items-center gap-1">
-                ⚠️ Verification Alert
-              </h3>
-              <p className="mt-1 text-[11px] text-slate-500">
-                Flagged {duplicateReceiptsAlert} duplicate receipt reference ID(s) across {expenses.length} expense log(s).
-              </p>
-            </div>
-          ) : expenses.length === 0 ? (
-            <div>
-              <h3 className="mt-3 text-2xl font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1">
-                <FiCheckCircle size={20} className="text-slate-400" /> No Expenses
-              </h3>
-              <p className="mt-2 text-[11px] text-slate-500">
-                Zero disbursements recorded in this group. Ledger has no expense records to audit.
-              </p>
-            </div>
-          ) : (
-            <div>
-              <h3 className="mt-3 text-2xl font-bold text-emerald-600 flex items-center gap-1">
-                <FiCheckCircle size={20} /> Clean Ledger
-              </h3>
-              <p className="mt-2 text-[11px] text-slate-500">
-                Audited {expenses.length} log(s) (₹{totalSpent.toLocaleString()}). {verifiedReceiptsCount} verified invoices with zero duplicate hashes detected.
-              </p>
-            </div>
-          )}
+          <div className="mt-3">
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
+              ₹{requiredPerMember > 0 ? requiredPerMember.toLocaleString() : '2,000'}
+              <span className="text-xs font-normal text-slate-400 ml-1">/ member</span>
+            </h3>
+            <p className="mt-1 text-xs font-semibold text-slate-500">
+              {activeGroup?.members?.length || 1} registered circle members
+            </p>
+          </div>
+          <p className="mt-2.5 text-[11px] text-slate-400 border-t border-slate-100 pt-2 dark:border-slate-800">
+            Target pool per cycle: ₹{((requiredPerMember || 2000) * (activeGroup?.members?.length || 1)).toLocaleString()}
+          </p>
         </div>
 
-        {/* AI Financial Advisory Card */}
+        {/* My Member Status Card */}
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase text-slate-400">AI Financial Advisory</span>
-            <FiZap size={18} className={currentBalance < 0 ? "text-rose-500" : "text-blue-600"} />
+            <span className="text-xs font-bold uppercase text-slate-400">My Contribution Status</span>
+            <FiCheckCircle size={18} className={userPaidTotal >= (requiredPerMember || 1) ? "text-emerald-500" : "text-amber-500"} />
           </div>
-          {currentBalance < 0 ? (
-            <div>
-              <h3 className="mt-3 text-sm font-bold text-rose-600 dark:text-rose-400 flex items-center gap-1">
-                ⚠️ Treasury Deficit Warning
-              </h3>
-              <p className="mt-1 text-[11px] text-slate-500 leading-normal">
-                Disbursements (₹{totalSpent.toLocaleString()}) exceed collections (₹{totalCollected.toLocaleString()}) by <strong className="text-rose-600 dark:text-rose-400">₹{Math.abs(currentBalance).toLocaleString()}</strong>. Immediate collection of member dues is required to resolve this deficit.
-              </p>
-            </div>
-          ) : currentBalance === 0 ? (
-            <div>
-              <h3 className="mt-3 text-sm font-bold text-slate-800 dark:text-slate-200">
-                Zero Net Balance
-              </h3>
-              <p className="mt-1 text-[11px] text-slate-500 leading-normal">
-                Total collections match disbursements (₹{totalCollected.toLocaleString()}). The pool currently holds ₹0 liquid reserves.
-              </p>
-            </div>
-          ) : (
-            <div>
-              <h3 className="mt-3 text-sm font-bold text-slate-900 dark:text-white">
-                Active Reserve Status
-              </h3>
-              <p className="mt-1 text-[11px] text-slate-500 leading-normal">
-                Available treasury balance is ₹{currentBalance.toLocaleString()} (Collected: ₹{totalCollected.toLocaleString()} | Spent: ₹{totalSpent.toLocaleString()}). Target 15% contingency reserve is ₹{reserveTarget.toLocaleString()}.
-              </p>
-            </div>
-          )}
+          <div className="mt-3">
+            {userPaidTotal >= (requiredPerMember || 1) ? (
+              <div>
+                <h3 className="text-xl font-bold text-emerald-600 flex items-center gap-1.5">
+                  <FiCheckCircle size={18} /> Contribution Paid
+                </h3>
+                <p className="mt-1 text-xs font-semibold text-slate-500">
+                  ₹{userPaidTotal.toLocaleString()} deposited for this circle
+                </p>
+              </div>
+            ) : (
+              <div>
+                <h3 className="text-xl font-bold text-amber-600 flex items-center gap-1.5">
+                  <FiClock size={18} /> Payment Pending
+                </h3>
+                <p className="mt-1 text-xs font-semibold text-slate-500">
+                  ₹{Math.max(0, (requiredPerMember || 2000) - userPaidTotal).toLocaleString()} pending for this cycle
+                </p>
+              </div>
+            )}
+          </div>
+          <div className="mt-2.5 border-t border-slate-100 pt-2 dark:border-slate-800 flex justify-between items-center text-[11px]">
+            <span className="text-slate-400">{user?.name || 'Member'}</span>
+            <Link to="/dashboard/payments" className="font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1">
+              View Payments <FiArrowRight size={11} />
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -315,16 +254,16 @@ function AIAssistant() {
       <div className="grid gap-6 xl:grid-cols-[0.8fr_1.2fr]">
         {/* Suggested Queries Column */}
         <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-          <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-2">Suggested Prompt Queries</h3>
-          <p className="text-xs text-slate-500 mb-4">Select a ledger lookup prompt to trigger AI</p>
+          <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-2">Suggested Questions</h3>
+          <p className="text-xs text-slate-500 mb-4">Click any question to ask your AI Assistant</p>
 
           <div className="space-y-2">
             {[
-              'How much have I paid this year?',
-              'Who hasn\'t paid monthly dues yet?',
-              'Show medical and emergency expenses.',
-              'What is our current group balance?',
-              'Explain active voting proposals.',
+              'What is our current savings pool balance?',
+              'Who hasn\'t contributed monthly dues yet?',
+              'How much have I contributed so far?',
+              'Show recent group expenses and payouts.',
+              'How does our savings circle payout work?',
             ].map((promptText) => (
               <button
                 key={promptText}

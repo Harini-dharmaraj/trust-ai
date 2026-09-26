@@ -94,10 +94,10 @@ function Dashboard() {
       dotColor: 'bg-amber-500'
     },
     { 
-      label: 'Audit Health', 
-      value: '100%', 
-      unit: 'Verified',
-      note: 'Zero discrepancies found', 
+      label: 'Circle Pool Balance', 
+      value: `₹${(totalCollectedAmount - totalSpentAmount).toLocaleString()}`, 
+      unit: '',
+      note: totalCollectedAmount - totalSpentAmount >= 0 ? 'Current available funds' : 'Treasury deficit', 
       icon: FiAward,
       iconBg: 'bg-purple-50 text-purple-600 dark:bg-purple-950/60 dark:text-purple-400',
       dotColor: 'bg-purple-500'
@@ -111,7 +111,7 @@ function Dashboard() {
           <p className="text-xs uppercase font-bold tracking-[0.2em]">TrustCircle AI Setup</p>
           <h2 className="mt-2 text-2xl font-bold">Welcome to Community Workspace</h2>
           <p className="mt-2 text-sm text-blue-100 max-w-xl">
-            To start tracking collections and auditing receipts, you need to create a community group (as an Admin) or request to join an existing group (as a Member).
+            To start tracking collections and managing circle payouts, you need to create a community savings circle (as an Admin) or request to join an existing group (as a Member).
           </p>
         </div>
 
@@ -140,11 +140,11 @@ function Dashboard() {
       <div className="rounded-3xl bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-600 p-7 sm:p-8 text-white shadow-xl relative overflow-hidden">
         <div className="relative z-10">
           <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-1 text-xs font-bold uppercase tracking-wider backdrop-blur border border-white/20">
-            <FiShield /> Realtime Dynamic Ledger
+            <FiCheckCircle /> Community Savings Circle
           </div>
-          <h2 className="mt-3 text-2xl sm:text-3xl font-bold tracking-tight">Transparent Community Money Management</h2>
+          <h2 className="mt-3 text-2xl sm:text-3xl font-bold tracking-tight">Transparent Savings Circle & Chit Fund</h2>
           <p className="mt-2 max-w-2xl text-xs sm:text-sm text-blue-100 leading-relaxed">
-            Audit payment contributions, proposal outcomes, and SHA-256 blocks for this community in real time.
+            Track monthly member contributions, payout cycles, and shared expenses in real time.
           </p>
         </div>
       </div>

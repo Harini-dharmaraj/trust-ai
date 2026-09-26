@@ -33,10 +33,10 @@ function AuthForm() {
   };
 
   const features = [
-    { icon: '🛡️', text: 'SHA-256 Cryptographic Audit Ledger' },
-    { icon: '🤖', text: 'AI Receipt OCR & Fraud Risk Scoring' },
-    { icon: '🗳️', text: 'Democratic Multi-Sig Voting Governance' },
-    { icon: '📊', text: 'Recharts Financial Analytics & PDF Export' },
+    { icon: '🛡️', text: 'Transparent Community Contribution History' },
+    { icon: '🤖', text: 'AI Savings Helper & OCR Receipt Scanner' },
+    { icon: '🗳️', text: 'Democratic Member Voting on Expenses' },
+    { icon: '📊', text: 'Visual Analytics & Instant PDF Statement Export' },
   ];
 
   return (

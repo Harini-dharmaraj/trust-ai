@@ -9,7 +9,6 @@ import {
   FiLogOut, FiMoon, FiSun, FiShield, FiLayers, FiCheckCircle 
 } from 'react-icons/fi';
 import { logout } from '../features/auth/authSlice';
-import AuditLedgerModal from './AuditLedgerModal';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -18,7 +17,6 @@ function Layout() {
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [theme, setTheme] = useState(() => localStorage.getItem('trustcircle-theme') || 'light');
-  const [showAuditModal, setShowAuditModal] = useState(false);
   
   // Real active group states
   const [myGroups, setMyGroups] = useState([]);
@@ -215,7 +213,7 @@ function Layout() {
                       <FiCheckCircle size={12} /> Realtime Sync
                     </span>
                     <span className="text-xs text-slate-400">•</span>
-                    <span className="text-xs font-medium text-slate-500 dark:text-slate-400">SHA-256 Ledger Active</span>
+                    <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Savings Circle Active</span>
                   </div>
                   <h2 className="text-lg font-bold text-slate-900 dark:text-white mt-0.5">
                     {activeGroup ? activeGroup.name : 'Select or Create a Group'}
@@ -244,14 +242,6 @@ function Layout() {
                   </div>
                 )}
 
-                {/* Audit Verification Modal Trigger */}
-                <button
-                  onClick={() => setShowAuditModal(true)}
-                  className="flex items-center gap-1.5 rounded-2xl bg-blue-50 px-3 py-2 text-xs font-bold text-blue-600 transition hover:bg-blue-100 dark:bg-blue-950/50 dark:text-blue-300 dark:hover:bg-blue-900/60"
-                >
-                  <FiShield size={14} /> Audit Proof
-                </button>
-
                 {/* Theme Toggle */}
                 <button
                   className="rounded-2xl border border-slate-200 p-2 text-slate-600 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
@@ -267,9 +257,6 @@ function Layout() {
           <Outlet />
         </main>
       </div>
-
-      {/* Audit Ledger Verification Modal */}
-      {showAuditModal && <AuditLedgerModal onClose={() => setShowAuditModal(false)} />}
     </div>
   );
 }

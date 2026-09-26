@@ -5,16 +5,16 @@ function Landing() {
   const navigate = useNavigate();
 
   const features = [
-    { icon: <FiShield className="text-cyan-300" size={24} />, title: 'SHA-256 Ledger Audit', desc: 'Immutable, cryptographically chained records for maximum financial accountability.' },
-    { icon: <FiCpu className="text-cyan-300" size={24} />, title: 'Real-time AI Insights', desc: 'Dynamic categorizations, budget recommendations, and automated OCR scanning.' },
-    { icon: <FiCheckSquare className="text-cyan-300" size={24} />, title: 'Multi-Sig Governance', desc: 'Configurable approval voting rules to ensure democratic budget releases.' },
-    { icon: <FiTrendingUp className="text-cyan-300" size={24} />, title: 'Real-time Sync Workspace', desc: 'Instant messaging chat, notifications, and balance aggregates from MongoDB.' },
+    { icon: <FiShield className="text-cyan-300" size={24} />, title: 'Transparent Records', desc: 'Clear, verified transaction history for complete savings circle accountability.' },
+    { icon: <FiCpu className="text-cyan-300" size={24} />, title: 'AI Savings Helper', desc: 'Instant pool balance calculations, monthly target trackers, and receipt scanning.' },
+    { icon: <FiCheckSquare className="text-cyan-300" size={24} />, title: 'Democratic Decisions', desc: 'Group voting on fund disbursements to ensure fair and agreed payouts.' },
+    { icon: <FiTrendingUp className="text-cyan-300" size={24} />, title: 'Real-time Circle Sync', desc: 'Instant chat, payment alerts, and member contribution rosters.' },
   ];
 
   const stats = [
     { number: '15,000+', label: 'Active Communities', color: 'from-blue-400 to-blue-600' },
     { number: '₹14.2Cr+', label: 'Volume Transacted', color: 'from-cyan-400 to-cyan-600' },
-    { number: '99.99%', label: 'Ledger Integrity', color: 'from-purple-400 to-purple-600' },
+    { number: '100%', label: 'Balance Accuracy', color: 'from-purple-400 to-purple-600' },
   ];
 
   return (
@@ -101,18 +101,18 @@ function Landing() {
               {/* Left Content */}
               <div className="flex flex-col justify-center">
                 <div className="mb-6 inline-flex w-fit rounded-full bg-white/10 px-4 py-2 text-xs font-semibold text-blue-100 backdrop-blur border border-white/20">
-                  ⚡ SECURE & IMMUTABLE LEDGER FOR SHARED MONEY
+                  ⚡ SIMPLE & TRANSPARENT SAVINGS CIRCLE
                 </div>
 
                 <h1 className="mb-6 text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
                   Manage Community Funds with
                   <span className="bg-gradient-to-r from-blue-200 to-cyan-200 bg-clip-text text-transparent block mt-2">
-                    Transparency & AI.
+                    Transparency & Ease.
                   </span>
                 </h1>
 
                 <p className="mb-8 text-base text-blue-100 sm:text-lg">
-                  TrustCircle AI helps apartment associations, non-profits, SHGs, and events coordinate budget deposits, approve spending proposals democratically, and verify receipts using automated AI OCR checks.
+                  TrustCircle helps savings groups, chit funds, apartment circles, and friends pool monthly contributions, track member payouts, and manage group expenses effortlessly.
                 </p>
 
                 <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
@@ -132,9 +132,9 @@ function Landing() {
 
                 {/* Core Commitments */}
                 <div className="space-y-3">
-                  <p className="text-xs font-bold uppercase tracking-wider text-blue-200">Compliance & Safeguards:</p>
+                  <p className="text-xs font-bold uppercase tracking-wider text-blue-200">Key Features & Security:</p>
                   <div className="space-y-2">
-                    {['100% Traceable SHA-256 Block hashes', 'Dynamic rule-based vote locks', 'Razorpay Payment Gateway Verification'].map(
+                    {['100% Transparent Transaction Records', 'Simple member contribution tracking', 'UPI Scan & Pay + Razorpay Gateway'].map(
                       (item) => (
                         <div key={item} className="flex items-center gap-3 text-blue-50">
                           <FiCheck className="h-5 w-5 flex-shrink-0 text-cyan-300" />
@@ -195,7 +195,7 @@ function Landing() {
               </div>
               <div className="rounded-xl bg-white/5 p-6 border border-white/10">
                 <p className="text-sm font-semibold text-white">NGOs & Charitable Circles</p>
-                <p className="text-xs text-blue-100 mt-2">Publish ledger balance summaries to donor bases with unalterable SHA-256 block proofs.</p>
+                <p className="text-xs text-blue-100 mt-2">Publish balance summaries to circle members with verified transaction history.</p>
               </div>
               <div className="rounded-xl bg-white/5 p-6 border border-white/10">
                 <p className="text-sm font-semibold text-white">Student & Travel Clubs</p>
@@ -208,9 +208,9 @@ function Landing() {
         {/* Ready Call-To-Action */}
         <div className="border-t border-white/10 px-4 py-12 sm:px-6 sm:py-16 lg:px-8 bg-gradient-to-b from-transparent to-blue-950/30 backdrop-blur-sm">
           <div className="mx-auto max-w-4xl text-center">
-            <h2 className="mb-4 text-3xl font-bold text-white">Ready to secure your community money?</h2>
+            <h2 className="mb-4 text-3xl font-bold text-white">Ready to simplify your savings circle?</h2>
             <p className="mb-8 text-sm text-blue-100 max-w-lg mx-auto">
-              Join thousands of community administrators enforcing transparency, digital ledgers, and democratic multi-sig budgeting.
+              Join community groups and chit funds pooling savings transparently with real-time tracking.
             </p>
             <div className="flex flex-col gap-3 sm:flex-row sm:justify-center sm:gap-4">
               <button

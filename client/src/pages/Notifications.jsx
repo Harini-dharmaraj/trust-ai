@@ -163,8 +163,8 @@ function Notifications() {
     if (filter === 'vote') {
       return type === 'vote' || action.includes('vote') || action.includes('ballot') || title.includes('ballot') || title.includes('vote');
     }
-    if (filter === 'ledger') {
-      return type === 'ledger' || Boolean(item.blockHash);
+    if (filter === 'history' || filter === 'ledger') {
+      return type === 'ledger' || Boolean(item.blockHash) || action.includes('ledger') || action.includes('history');
     }
     return type === filter;
   };
@@ -221,8 +221,8 @@ function Notifications() {
       return {
         bg: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-950/40 dark:text-cyan-300 dark:border-cyan-800',
         badge: 'bg-cyan-600 text-white',
-        icon: FiShield,
-        label: 'Ledger Block'
+        icon: FiCheckCircle,
+        label: 'Transaction'
       };
     }
     return {
@@ -245,7 +245,7 @@ function Notifications() {
           </div>
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-1">Platform Activity Stream</h2>
           <p className="text-xs text-slate-500">
-            Real activity records for member contributions, group chat messages, ledger blocks, proposals, and expenses.
+            Real activity records for member contributions, group chat messages, and circle expenses.
           </p>
         </div>
 
@@ -298,7 +298,7 @@ function Notifications() {
           { id: 'expense', label: 'Expenses' },
           { id: 'proposal', label: 'Proposals' },
           { id: 'vote', label: 'Votes' },
-          { id: 'ledger', label: 'Audit Ledger' },
+          { id: 'history', label: 'History' },
         ].map((tab) => (
           <button
             key={tab.id}
@@ -360,11 +360,6 @@ function Notifications() {
                         <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase ${style.badge}`}>
                           {style.label}
                         </span>
-                        {item.blockHeight && (
-                          <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-600 dark:bg-slate-800 dark:text-slate-300">
-                            Block #{item.blockHeight}
-                          </span>
-                        )}
                         {item.amount && (
                           <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
                             {item.amount}
@@ -383,15 +378,6 @@ function Notifications() {
                             })()
                           : item.message}
                       </p>
-
-                      {/* Cryptographic Hash Snippet for Ledger Blocks */}
-                      {item.blockHash && (
-                        <div className="mt-2 flex items-center gap-2">
-                          <span className="inline-flex items-center gap-1 font-mono text-[10px] text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-950/50 px-2 py-0.5 rounded-lg">
-                            <FiShield size={10} /> SHA-256: {item.blockHash.substring(0, 16)}...
-                          </span>
-                        </div>
-                      )}
 
                       {/* Open in Chat Action Button */}
                       {(item.type === 'chat' || style.label === 'Chat') && (

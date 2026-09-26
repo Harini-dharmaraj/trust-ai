@@ -614,7 +614,7 @@ function Payments() {
                         : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'
                     }`}
                   >
-                    Transaction Ledger ({payments.length})
+                    Transaction History ({payments.length})
                   </button>
                 </div>
               </div>
@@ -824,7 +824,7 @@ function Payments() {
                     <span className="text-[10px] font-semibold text-emerald-600">From bank SMS or app</span>
                   </div>
                   <p className="text-[11px] text-slate-500">
-                    Once paid, copy the 12-digit UTR / UPI Ref ID from your payment confirmation screen to record on the cryptographic ledger:
+                    Once paid, copy the 12-digit UTR / UPI Ref ID from your payment confirmation screen to record your contribution:
                   </p>
                   <div className="flex gap-2">
                     <input
@@ -866,7 +866,7 @@ function Payments() {
                   </button>
                   <div className="flex items-center gap-1.5 text-[11px] text-slate-400">
                     <FiShield className="text-emerald-500" />
-                    <span>Logged to SHA-256 Ledger</span>
+                    <span>Recorded in Circle History</span>
                   </div>
                 </div>
               </div>
@@ -995,7 +995,7 @@ function Payments() {
                 }
                 className="flex-1 rounded-xl bg-blue-600 hover:bg-blue-700 py-2.5 text-xs font-bold text-white transition disabled:opacity-50"
               >
-                {isProcessing ? 'Recording...' : 'Record to Ledger'}
+                {isProcessing ? 'Recording...' : 'Record Contribution'}
               </button>
             </div>
           </div>
@@ -1009,8 +1009,8 @@ function Payments() {
             <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-300">
               <FiCheckCircle size={32} />
             </div>
-            <h3 className="mt-4 text-xl font-bold text-slate-900 dark:text-white">Payment Verified & Appended!</h3>
-            <p className="mt-1 text-xs text-slate-500">Transaction verified and logged into cryptographic SHA-256 Ledger.</p>
+            <h3 className="mt-4 text-xl font-bold text-slate-900 dark:text-white">Payment Verified & Recorded!</h3>
+            <p className="mt-1 text-xs text-slate-500">Transaction verified and recorded in circle savings history.</p>
 
             <div className="mt-4 space-y-2 rounded-2xl bg-slate-50 p-4 text-xs font-mono text-slate-700 dark:bg-slate-950 dark:text-slate-300 text-left">
               <div className="flex justify-between">
@@ -1031,7 +1031,7 @@ function Payments() {
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">Status:</span>
-                <span className="font-bold text-emerald-500">Confirmed (SHA-256)</span>
+                <span className="font-bold text-emerald-500">Confirmed</span>
               </div>
             </div>
 
@@ -1039,7 +1039,7 @@ function Payments() {
               onClick={() => setPaymentSuccessModal(null)}
               className="mt-6 w-full rounded-xl bg-blue-600 hover:bg-blue-700 py-3 font-bold text-xs text-white transition shadow-lg shadow-blue-500/20"
             >
-              Done & Return to Ledger
+              Done & View Contributions
             </button>
           </div>
         </div>

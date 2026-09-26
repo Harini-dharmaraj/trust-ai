@@ -114,7 +114,7 @@ function Profile() {
               <input type="checkbox" defaultChecked className="h-4 w-4 text-blue-600 rounded" />
             </label>
             <label className="flex items-center justify-between rounded-2xl bg-slate-50 p-3.5 dark:bg-slate-800/60 cursor-pointer">
-              <span>Enable AI Fraud Detection alerts</span>
+              <span>Enable payment receipt alerts</span>
               <input type="checkbox" defaultChecked className="h-4 w-4 text-blue-600 rounded" />
             </label>
           </div>

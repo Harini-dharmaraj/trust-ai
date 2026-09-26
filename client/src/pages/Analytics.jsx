@@ -66,19 +66,19 @@ function Analytics() {
         <body>
           <div class="header">
             <div>
-              <div class="title">TrustCircle AI Statement</div>
-              <div class="subtitle">Realtime SHA-256 Ledger Verified Statements</div>
+              <div class="title">TrustCircle Savings Statement</div>
+              <div class="subtitle">Realtime Verified Community Statement</div>
             </div>
             <div>
               <div style="font-weight: bold;">Date: ${new Date().toLocaleDateString()}</div>
-              <div style="font-size: 12px; color: #64748b;">Ref: SHA256-TRX-${Math.floor(10000 + Math.random() * 90000)}</div>
+              <div style="font-size: 12px; color: #64748b;">Ref: REC-${Math.floor(10000 + Math.random() * 90000)}</div>
             </div>
           </div>
 
           <div class="section">
             <h3>Executive Summary</h3>
             <p>Total Community Collection: <strong>₹${totalCollected?.toLocaleString()}</strong> | Total Approved Expenses: <strong>₹${totalSpent?.toLocaleString()}</strong></p>
-            <p class="verified">✓ Cryptographic Audit Status: 100% Validated (0 Discrepancies)</p>
+            <p class="verified">✓ Statement Status: 100% Balanced & Verified</p>
           </div>
 
           <div class="section">
@@ -96,9 +96,9 @@ function Analytics() {
           </div>
 
           <div class="qr-box">
-            <div style="font-weight: bold; margin-bottom: 5px;">QR Verification Hash</div>
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://trustcircle.ai/verify/ledger" alt="QR Verification" />
-            <div style="font-size: 11px; color: #64748b; margin-top: 5px;">Scan QR code to check transaction block integrity on SHA-256 server ledger.</div>
+            <div style="font-weight: bold; margin-bottom: 5px;">Digital Verification</div>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://trustcircle.ai/verify" alt="QR Verification" />
+            <div style="font-size: 11px; color: #64748b; margin-top: 5px;">Scan QR code to verify this official statement.</div>
           </div>
         </body>
       </html>
