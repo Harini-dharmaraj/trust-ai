@@ -6,19 +6,14 @@ import { FiShield, FiUsers, FiDollarSign, FiAlertTriangle, FiCheckCircle, FiLock
 function Admin() {
   const { token } = useSelector((state) => state.auth);
   const [stats, setStats] = useState({
-    totalUsers: 48,
-    totalGroups: 12,
-    totalTransacted: 485000,
-    totalSpent: 184000,
-    fraudAlertsCount: 2,
+    totalUsers: 0,
+    totalGroups: 0,
+    totalTransacted: 0,
+    totalSpent: 0,
+    fraudAlertsCount: 0,
     systemHealth: '100% Operational',
   });
-  const [users, setUsers] = useState([
-    { _id: 'u1', name: 'Asha Sharma', email: 'asha@trustcircle.ai', role: 'admin', trustScore: 96, isBanned: false },
-    { _id: 'u2', name: 'Rahul Verma', email: 'rahul@trustcircle.ai', role: 'member', trustScore: 88, isBanned: false },
-    { _id: 'u3', name: 'Meera Patel', email: 'meera@trustcircle.ai', role: 'member', trustScore: 92, isBanned: false },
-    { _id: 'u4', name: 'Dev Account', email: 'flagged_user@test.com', role: 'member', trustScore: 42, isBanned: true },
-  ]);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [actionMessage, setActionMessage] = useState('');
 

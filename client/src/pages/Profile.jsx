@@ -8,10 +8,20 @@ function Profile() {
   const { user, token } = useSelector((state) => state.auth);
 
   const [form, setForm] = useState({
-    name: user?.name || 'Asha Sharma',
-    email: user?.email || 'asha@trustcircle.ai',
-    role: user?.role || 'admin',
+    name: user?.name || '',
+    email: user?.email || '',
+    role: user?.role || 'member',
   });
+
+  useEffect(() => {
+    if (user) {
+      setForm({
+        name: user.name || '',
+        email: user.email || '',
+        role: user.role || 'member',
+      });
+    }
+  }, [user]);
 
   const [message, setMessage] = useState('');
 

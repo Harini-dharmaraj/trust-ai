@@ -28,11 +28,11 @@ router.get('/stats', protect, superAdminOnly, async (_req, res) => {
     const totalSpent = expenses.reduce((acc, curr) => acc + (curr.amount || 0), 0);
 
     res.json({
-      totalUsers: totalUsers || 48,
-      totalGroups: totalGroups || 12,
-      totalTransacted: totalTransacted || 485000,
-      totalSpent: totalSpent || 184000,
-      fraudAlertsCount: 2,
+      totalUsers: totalUsers || 0,
+      totalGroups: totalGroups || 0,
+      totalTransacted: totalTransacted || 0,
+      totalSpent: totalSpent || 0,
+      fraudAlertsCount: 0,
       systemHealth: '100% Operational',
     });
   } catch (error) {
