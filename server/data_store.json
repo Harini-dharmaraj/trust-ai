@@ -1,0 +1,86 @@
+{
+  "users": [
+    {
+      "_id": "usr_1786938402751",
+      "name": "Jeevika",
+      "email": "jeevika13@gmail.com",
+      "password": "$2a$10$l5lkuUT3fdqM9lTq2dj7yetojN56zbLbfhnX8yvVk0VPKZz14pVqa",
+      "role": "member",
+      "createdAt": "2026-08-17T03:46:42.752Z"
+    },
+    {
+      "_id": "usr_1786938908189",
+      "name": "Jenefa",
+      "email": "jenefa12@gmail.com",
+      "password": "$2a$10$Hzwi1aihOBteqq0aPZn1CO/GO1q4oRWMznNoovIJ.aErFjvb7jKFW",
+      "role": "admin",
+      "createdAt": "2026-08-17T03:55:08.191Z",
+      "groupsJoined": [
+        "grp_1786938988761"
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "_id": "grp_1786938988761",
+      "name": "Green Park Associations",
+      "category": "Apartment Association",
+      "description": "Onam celebration contribution",
+      "goalAmount": 25000,
+      "contributionAmount": 1000,
+      "deadline": "2026-08-22",
+      "adminId": "usr_1786938908189",
+      "admin": {
+        "name": "Jenefa",
+        "email": "admin@trustcircle.ai"
+      },
+      "members": [
+        "usr_1786938908189"
+      ],
+      "pendingMembers": [],
+      "status": "active",
+      "inviteToken": "91B52A444D92",
+      "inviteEnabled": true,
+      "inviteUsageCount": 0,
+      "inviteMaxUsage": 100,
+      "createdAt": "2026-08-17T03:56:28.762Z"
+    }
+  ],
+  "payments": [
+    {
+      "_id": "6ab4e7c2be6dd124b3b00541",
+      "user": "6aaa0d6e40170adc86fa0bd2",
+      "group": "6aaa0ff540170adc86fa0bdc",
+      "groupId": "6aaa0ff540170adc86fa0bdc",
+      "memberName": "Deepana",
+      "amount": 1500,
+      "status": "paid",
+      "date": "2026-09-24",
+      "method": "Razorpay Netbanking (ICICI Bank)",
+      "transactionId": "pay_rzp_test_433499",
+      "paymentId": "pay_rzp_test_433499",
+      "orderId": "order_sim_1790240457415",
+      "blockHash": "4218c0a6f0b46a7f003099cfc10bda26bba17f7a589ac58f682d57e7918562a9",
+      "createdAt": "2026-09-24T09:05:06.536Z"
+    }
+  ],
+  "expenses": [],
+  "proposals": [],
+  "messages": [],
+  "notifications": [
+    {
+      "groupId": "6aaa0ff540170adc86fa0bdc",
+      "title": "Payment Contribution Approved",
+      "message": "Deepana paid contribution due ₹1500",
+      "type": "ledger",
+      "blockHeight": 105,
+      "action": "Payment Contribution",
+      "entity": "Deepana",
+      "amount": "₹1500",
+      "blockHash": "4218c0a6f0b46a7f003099cfc10bda26bba17f7a589ac58f682d57e7918562a9",
+      "previousHash": "1f5f91484ee7acdca7fec12e740675b632813b718726834d424614148e7ca5a2",
+      "timestamp": "24/9/2026, 2:35:06 pm",
+      "_id": "block_1790240706721"
+    }
+  ]
+}
