@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { 
   FiArrowRight, FiCheck, FiShield, FiCpu, FiTrendingUp, FiCheckSquare,
   FiSmartphone, FiUsers, FiDollarSign, FiClock
@@ -6,6 +7,7 @@ import {
 
 function Landing() {
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth || {});
 
   const features = [
     { 
@@ -111,19 +113,30 @@ function Landing() {
               </div>
               <div className="text-xl font-bold text-white tracking-tight">TrustCircle</div>
             </div>
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => navigate('/auth')}
-                className="rounded-lg border border-white/30 px-4 py-2 font-semibold text-white hover:bg-white/10 transition text-xs sm:text-sm"
-              >
-                Sign In
-              </button>
-              <button
-                onClick={() => navigate('/auth')}
-                className="rounded-lg bg-white px-5 py-2 font-semibold text-blue-900 transition hover:bg-blue-50 shadow-lg text-xs sm:text-sm"
-              >
-                Create Account
-              </button>
+            <div className="flex items-center gap-3">
+              {user ? (
+                <button
+                  onClick={() => navigate('/dashboard')}
+                  className="rounded-xl bg-white px-5 py-2 font-bold text-blue-900 transition hover:bg-blue-50 shadow-lg text-xs sm:text-sm flex items-center gap-1.5"
+                >
+                  Go to Dashboard <FiArrowRight size={14} />
+                </button>
+              ) : (
+                <>
+                  <button
+                    onClick={() => navigate('/auth')}
+                    className="rounded-lg border border-white/30 px-4 py-2 font-semibold text-white hover:bg-white/10 transition text-xs sm:text-sm"
+                  >
+                    Sign In
+                  </button>
+                  <button
+                    onClick={() => navigate('/auth')}
+                    className="rounded-lg bg-white px-5 py-2 font-semibold text-blue-900 transition hover:bg-blue-50 shadow-lg text-xs sm:text-sm"
+                  >
+                    Create Account
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </nav>
@@ -149,18 +162,12 @@ function Landing() {
                   TrustCircle helps friends, families, apartment communities, and chit circles collect monthly contributions, track member dues, and disburse payouts with complete transparency.
                 </p>
 
-                <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
-                  <button
-                    onClick={() => navigate('/auth')}
-                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-8 py-3.5 font-bold text-xs sm:text-sm text-blue-900 transition hover:bg-blue-50 shadow-lg hover:shadow-xl"
-                  >
-                    Start Managing Free <FiArrowRight className="h-4 w-4" />
-                  </button>
+                <div className="mb-8 flex items-center gap-3">
                   <a
                     href="#how-it-works"
-                    className="inline-flex items-center justify-center rounded-xl border border-white/30 px-8 py-3.5 font-bold text-xs sm:text-sm text-white transition hover:bg-white/10 backdrop-blur hover:border-white/50"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-white/15 border border-white/30 px-6 py-3 font-bold text-xs sm:text-sm text-white transition hover:bg-white/25 backdrop-blur shadow-sm"
                   >
-                    How It Works
+                    Explore How It Works ↓
                   </a>
                 </div>
 
@@ -273,18 +280,29 @@ function Landing() {
               Create a free circle, invite your members, and start pooling savings with complete transparency.
             </p>
             <div className="flex flex-col gap-3 sm:flex-row sm:justify-center sm:gap-4">
-              <button
-                onClick={() => navigate('/auth')}
-                className="rounded-xl bg-white px-8 py-3.5 font-bold text-xs text-blue-900 transition hover:bg-blue-50 shadow-lg hover:shadow-xl"
-              >
-                Create Free Account
-              </button>
-              <button
-                onClick={() => navigate('/auth')}
-                className="rounded-xl border border-white/30 px-8 py-3.5 font-bold text-xs text-white transition hover:bg-white/10 backdrop-blur hover:border-white/50"
-              >
-                Sign In
-              </button>
+              {user ? (
+                <button
+                  onClick={() => navigate('/dashboard')}
+                  className="rounded-xl bg-white px-8 py-3.5 font-bold text-xs text-blue-900 transition hover:bg-blue-50 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                >
+                  Go to Dashboard <FiArrowRight size={14} />
+                </button>
+              ) : (
+                <>
+                  <button
+                    onClick={() => navigate('/auth')}
+                    className="rounded-xl bg-white px-8 py-3.5 font-bold text-xs text-blue-900 transition hover:bg-blue-50 shadow-lg hover:shadow-xl"
+                  >
+                    Create Account
+                  </button>
+                  <button
+                    onClick={() => navigate('/auth')}
+                    className="rounded-xl border border-white/30 px-8 py-3.5 font-bold text-xs text-white transition hover:bg-white/10 backdrop-blur hover:border-white/50"
+                  >
+                    Sign In
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>
