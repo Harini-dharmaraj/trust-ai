@@ -139,13 +139,13 @@ function Profile() {
           </form>
         </div>
 
-        {/* Real In-App Governance Preferences Card */}
+        {/* In-App Notification Preferences Card */}
         <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Governance & Alert Settings</h3>
-                <p className="text-xs text-slate-500">Real-time in-app notification and security parameters</p>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Notification Preferences</h3>
+                <p className="text-xs text-slate-500">Choose what notifications you want to receive inside the app</p>
               </div>
               <span className="rounded-full bg-blue-50 px-2.5 py-0.5 text-[10px] font-bold text-blue-600 dark:bg-blue-950 dark:text-blue-300">
                 In-App
@@ -163,8 +163,8 @@ function Profile() {
                 <div className="flex items-center gap-2.5">
                   <FiBell className="text-blue-600" size={16} />
                   <div>
-                    <span className="block font-bold">Real-time WebSocket Live Alerts</span>
-                    <span className="text-[10px] text-slate-400 font-normal">Push banner notifications for incoming chats and payments</span>
+                    <span className="block font-bold">Chat & Payment Alerts</span>
+                    <span className="text-[10px] text-slate-400 font-normal">Show instant alerts when a member sends a message or makes a payment</span>
                   </div>
                 </div>
                 <input
@@ -179,8 +179,8 @@ function Profile() {
                 <div className="flex items-center gap-2.5">
                   <FiCheckSquare className="text-emerald-600" size={16} />
                   <div>
-                    <span className="block font-bold">Democratic Voting & Ballot Alerts</span>
-                    <span className="text-[10px] text-slate-400 font-normal">Notify when new spending or pot proposals open for voting</span>
+                    <span className="block font-bold">Group Voting Alerts</span>
+                    <span className="text-[10px] text-slate-400 font-normal">Get notified when someone creates a new vote or poll</span>
                   </div>
                 </div>
                 <input
@@ -195,8 +195,8 @@ function Profile() {
                 <div className="flex items-center gap-2.5">
                   <FiLock className="text-amber-600" size={16} />
                   <div>
-                    <span className="block font-bold">Cryptographic Ledger Audit Alerts</span>
-                    <span className="text-[10px] text-slate-400 font-normal">Log and broadcast tamper-evident SHA-256 block receipts</span>
+                    <span className="block font-bold">Expense & Bill Alerts</span>
+                    <span className="text-[10px] text-slate-400 font-normal">Get notified when a new expense or verified receipt is added</span>
                   </div>
                 </div>
                 <input
@@ -211,8 +211,8 @@ function Profile() {
                 <div className="flex items-center gap-2.5">
                   <FiActivity className="text-purple-600" size={16} />
                   <div>
-                    <span className="block font-bold">Circle Presence & Online Status</span>
-                    <span className="text-[10px] text-slate-400 font-normal">Show active online status to members in group chat</span>
+                    <span className="block font-bold">Show When I'm Online</span>
+                    <span className="text-[10px] text-slate-400 font-normal">Show a green dot next to your name when you are in group chat</span>
                   </div>
                 </div>
                 <input
@@ -226,8 +226,8 @@ function Profile() {
           </div>
 
           <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
-            <span>Client-side persistent security configuration</span>
-            <span className="font-bold text-emerald-600">✓ Active</span>
+            <span>Preferences are automatically saved</span>
+            <span className="font-bold text-emerald-600">✓ Saved</span>
           </div>
         </div>
       </div>
