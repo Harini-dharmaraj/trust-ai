@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { FiUser, FiMail, FiShield, FiCheckCircle } from 'react-icons/fi';
+import { FiUser, FiMail, FiShield, FiCheckCircle, FiBell, FiCheckSquare, FiActivity, FiLock } from 'react-icons/fi';
 import { loginSuccess } from '../features/auth/authSlice';
 
 function Profile() {
@@ -12,6 +12,34 @@ function Profile() {
     email: user?.email || '',
     role: user?.role || 'member',
   });
+
+  // Stateful real in-app preferences
+  const [preferences, setPreferences] = useState(() => {
+    const saved = localStorage.getItem('trustcircle-preferences');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {}
+    }
+    return {
+      liveAlerts: true,
+      votingAlerts: true,
+      ledgerAlerts: true,
+      onlinePresence: true,
+    };
+  });
+
+  const [prefMessage, setPrefMessage] = useState('');
+
+  const togglePreference = (key) => {
+    setPreferences((prev) => {
+      const updated = { ...prev, [key]: !prev[key] };
+      localStorage.setItem('trustcircle-preferences', JSON.stringify(updated));
+      setPrefMessage('Security preference updated!');
+      setTimeout(() => setPrefMessage(''), 2500);
+      return updated;
+    });
+  };
 
   useEffect(() => {
     if (user) {
@@ -41,9 +69,9 @@ function Profile() {
         <div className="flex items-center gap-2 text-xs font-bold text-blue-600 uppercase tracking-wider">
           <FiUser /> Account & Security Configuration
         </div>
-        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-1">Profile & Role Settings</h2>
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-1">Profile & Governance Settings</h2>
         <p className="text-xs text-slate-500">
-          Manage your personal account details, role permissions (Member, Group Admin, Super Admin), and alert preferences.
+          Manage your personal account credentials, role permissions (Member, Group Admin, Super Admin), and real-time governance alert preferences.
         </p>
       </div>
 
@@ -111,22 +139,95 @@ function Profile() {
           </form>
         </div>
 
-        {/* Preferences Card */}
-        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-          <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">Notification & Security Preferences</h3>
-          <div className="space-y-3 text-xs font-semibold text-slate-700 dark:text-slate-300">
-            <label className="flex items-center justify-between rounded-2xl bg-slate-50 p-3.5 dark:bg-slate-800/60 cursor-pointer">
-              <span>Enable real-time email payment receipts</span>
-              <input type="checkbox" defaultChecked className="h-4 w-4 text-blue-600 rounded" />
-            </label>
-            <label className="flex items-center justify-between rounded-2xl bg-slate-50 p-3.5 dark:bg-slate-800/60 cursor-pointer">
-              <span>Enable SMS & WhatsApp due reminders</span>
-              <input type="checkbox" defaultChecked className="h-4 w-4 text-blue-600 rounded" />
-            </label>
-            <label className="flex items-center justify-between rounded-2xl bg-slate-50 p-3.5 dark:bg-slate-800/60 cursor-pointer">
-              <span>Enable payment receipt alerts</span>
-              <input type="checkbox" defaultChecked className="h-4 w-4 text-blue-600 rounded" />
-            </label>
+        {/* Real In-App Governance Preferences Card */}
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Governance & Alert Settings</h3>
+                <p className="text-xs text-slate-500">Real-time in-app notification and security parameters</p>
+              </div>
+              <span className="rounded-full bg-blue-50 px-2.5 py-0.5 text-[10px] font-bold text-blue-600 dark:bg-blue-950 dark:text-blue-300">
+                In-App
+              </span>
+            </div>
+
+            {prefMessage && (
+              <p className="mb-3 rounded-xl bg-emerald-50 p-2 text-[11px] font-bold text-emerald-700 border border-emerald-200 dark:bg-emerald-950 dark:text-emerald-300 animate-fadeIn">
+                ✓ {prefMessage}
+              </p>
+            )}
+
+            <div className="space-y-3 text-xs font-semibold text-slate-700 dark:text-slate-300">
+              <label className="flex items-center justify-between rounded-2xl bg-slate-50 p-3.5 dark:bg-slate-800/60 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                <div className="flex items-center gap-2.5">
+                  <FiBell className="text-blue-600" size={16} />
+                  <div>
+                    <span className="block font-bold">Real-time WebSocket Live Alerts</span>
+                    <span className="text-[10px] text-slate-400 font-normal">Push banner notifications for incoming chats and payments</span>
+                  </div>
+                </div>
+                <input
+                  type="checkbox"
+                  checked={preferences.liveAlerts}
+                  onChange={() => togglePreference('liveAlerts')}
+                  className="h-4 w-4 text-blue-600 rounded cursor-pointer"
+                />
+              </label>
+
+              <label className="flex items-center justify-between rounded-2xl bg-slate-50 p-3.5 dark:bg-slate-800/60 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                <div className="flex items-center gap-2.5">
+                  <FiCheckSquare className="text-emerald-600" size={16} />
+                  <div>
+                    <span className="block font-bold">Democratic Voting & Ballot Alerts</span>
+                    <span className="text-[10px] text-slate-400 font-normal">Notify when new spending or pot proposals open for voting</span>
+                  </div>
+                </div>
+                <input
+                  type="checkbox"
+                  checked={preferences.votingAlerts}
+                  onChange={() => togglePreference('votingAlerts')}
+                  className="h-4 w-4 text-blue-600 rounded cursor-pointer"
+                />
+              </label>
+
+              <label className="flex items-center justify-between rounded-2xl bg-slate-50 p-3.5 dark:bg-slate-800/60 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                <div className="flex items-center gap-2.5">
+                  <FiLock className="text-amber-600" size={16} />
+                  <div>
+                    <span className="block font-bold">Cryptographic Ledger Audit Alerts</span>
+                    <span className="text-[10px] text-slate-400 font-normal">Log and broadcast tamper-evident SHA-256 block receipts</span>
+                  </div>
+                </div>
+                <input
+                  type="checkbox"
+                  checked={preferences.ledgerAlerts}
+                  onChange={() => togglePreference('ledgerAlerts')}
+                  className="h-4 w-4 text-blue-600 rounded cursor-pointer"
+                />
+              </label>
+
+              <label className="flex items-center justify-between rounded-2xl bg-slate-50 p-3.5 dark:bg-slate-800/60 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                <div className="flex items-center gap-2.5">
+                  <FiActivity className="text-purple-600" size={16} />
+                  <div>
+                    <span className="block font-bold">Circle Presence & Online Status</span>
+                    <span className="text-[10px] text-slate-400 font-normal">Show active online status to members in group chat</span>
+                  </div>
+                </div>
+                <input
+                  type="checkbox"
+                  checked={preferences.onlinePresence}
+                  onChange={() => togglePreference('onlinePresence')}
+                  className="h-4 w-4 text-blue-600 rounded cursor-pointer"
+                />
+              </label>
+            </div>
+          </div>
+
+          <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+            <span>Client-side persistent security configuration</span>
+            <span className="font-bold text-emerald-600">✓ Active</span>
           </div>
         </div>
       </div>
