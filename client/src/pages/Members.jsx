@@ -244,17 +244,31 @@ function Members() {
                     </div>
                   </div>
 
-                  {/* Trust Score & Badges */}
+                  {/* Trust Reliability & Member Standing */}
                   <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
-                    <div className="rounded-xl bg-slate-50 p-2 dark:bg-slate-950/60">
-                      <span className="text-[9px] text-slate-400 font-bold uppercase">Trust Score</span>
-                      <p className="text-base font-bold text-emerald-600">{trustScore}/100</p>
-                    </div>
-                    <div className="rounded-xl bg-slate-50 p-2 dark:bg-slate-950/60 flex flex-col justify-center">
-                      <span className="text-[9px] text-slate-400 font-bold uppercase">Tier</span>
-                      <p className="text-xs font-bold text-slate-900 dark:text-white">
-                        {trustScore >= 95 ? '🥇 Platinum' : trustScore >= 85 ? '🥈 Gold' : '🥉 Silver'}
+                    <div className="rounded-xl bg-slate-50 p-2.5 dark:bg-slate-950/60">
+                      <span className="text-[9px] text-slate-400 font-bold uppercase">Trust Reliability</span>
+                      <p className={`text-base font-bold ${dues.isFullyPaid ? 'text-emerald-600' : dues.isPartial ? 'text-amber-600' : 'text-slate-600'}`}>
+                        {dues.isFullyPaid ? '100/100' : dues.isPartial ? '85/100' : '70/100'}
                       </p>
+                    </div>
+                    <div className="rounded-xl bg-slate-50 p-2.5 dark:bg-slate-950/60 flex flex-col justify-center">
+                      <span className="text-[9px] text-slate-400 font-bold uppercase">Member Standing</span>
+                      <div className="text-xs font-bold mt-0.5">
+                        {dues.isFullyPaid ? (
+                          <span className="text-emerald-600 flex items-center gap-1 font-bold">
+                            <FiCheckCircle size={12} /> Good Standing
+                          </span>
+                        ) : dues.isPartial ? (
+                          <span className="text-amber-600 flex items-center gap-1 font-bold">
+                            <FiAlertCircle size={12} /> Partial Balance
+                          </span>
+                        ) : (
+                          <span className="text-rose-600 flex items-center gap-1 font-bold">
+                            <FiClock size={12} /> Awaiting Deposit
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
