@@ -33,19 +33,76 @@ const io = new Server(server, {
   },
 });
 
+app.set('io', io);
+
 app.use(helmet({ contentSecurityPolicy: false }));
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('dev'));
 
+// Map to track active online members per community group: groupId -> Map(socketId -> userData)
+const onlineUsersByGroup = new Map();
+
+// Helper to broadcast online members roster
+const broadcastOnlineRoster = (groupId) => {
+  if (!groupId) return;
+  const groupSockets = onlineUsersByGroup.get(groupId);
+  const userList = groupSockets ? Array.from(groupSockets.values()) : [];
+  // Deduplicate by userId
+  const uniqueUsers = [];
+  const seenIds = new Set();
+  userList.forEach((u) => {
+    if (u.userId && !seenIds.has(u.userId.toString())) {
+      seenIds.add(u.userId.toString());
+      uniqueUsers.push(u);
+    }
+  });
+  io.to(groupId).emit('online_users_update', uniqueUsers);
+};
+
 // Socket.IO Connection Handler
 io.on('connection', (socket) => {
-  console.log('⚡ Socket connected:', socket.id);
+  let socketGroupId = null;
+  let socketUserId = null;
 
-  socket.on('join_group', (groupId) => {
+  socket.on('join_group', (payload) => {
+    // Support either object { groupId, userId, name, role } or raw string groupId
+    const groupId = typeof payload === 'object' ? payload?.groupId : payload;
+    const userId = typeof payload === 'object' ? payload?.userId : null;
+    const name = typeof payload === 'object' ? payload?.name : null;
+    const role = typeof payload === 'object' ? payload?.role : 'member';
+
+    if (!groupId) return;
+
+    socketGroupId = groupId;
+    socketUserId = userId;
+
     socket.join(groupId);
-    console.log(`Socket ${socket.id} joined room: ${groupId}`);
+
+    if (userId) {
+      if (!onlineUsersByGroup.has(groupId)) {
+        onlineUsersByGroup.set(groupId, new Map());
+      }
+      onlineUsersByGroup.get(groupId).set(socket.id, {
+        socketId: socket.id,
+        userId: userId.toString(),
+        name: name || 'Community Member',
+        role: role || 'member',
+        status: 'online',
+        joinedAt: new Date().toISOString(),
+      });
+      broadcastOnlineRoster(groupId);
+    }
+  });
+
+  socket.on('leave_group', (groupId) => {
+    const targetGroup = groupId || socketGroupId;
+    if (targetGroup && onlineUsersByGroup.has(targetGroup)) {
+      onlineUsersByGroup.get(targetGroup).delete(socket.id);
+      broadcastOnlineRoster(targetGroup);
+    }
+    if (targetGroup) socket.leave(targetGroup);
   });
 
   socket.on('send_message', (data) => {
@@ -69,8 +126,15 @@ io.on('connection', (socket) => {
     io.to(data.groupId).emit('vote_updated', data);
   });
 
+  socket.on('proposal_created', (data) => {
+    io.to(data.groupId).emit('new_proposal', data);
+  });
+
   socket.on('disconnect', () => {
-    console.log('Socket disconnected:', socket.id);
+    if (socketGroupId && onlineUsersByGroup.has(socketGroupId)) {
+      onlineUsersByGroup.get(socketGroupId).delete(socket.id);
+      broadcastOnlineRoster(socketGroupId);
+    }
   });
 });
 

@@ -24,7 +24,13 @@ function AuthForm() {
       localStorage.setItem('trustcircle-user', JSON.stringify(user));
       dispatch(loginSuccess({ token, user }));
       setMessage(`${mode === 'login' ? 'Logged in' : 'Registered'} successfully`);
-      setTimeout(() => navigate('/dashboard'), 800);
+
+      const pendingInvite = localStorage.getItem('trustcircle-pending-invite');
+      if (pendingInvite) {
+        setTimeout(() => navigate(`/join/${pendingInvite}`), 800);
+      } else {
+        setTimeout(() => navigate('/dashboard'), 800);
+      }
     } catch (error) {
       setMessage(error.response?.data?.message || 'Server connection error. Please verify the backend is active.');
     } finally {

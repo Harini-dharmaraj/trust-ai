@@ -8,6 +8,11 @@ const router = express.Router();
 
 router.get('/messages', protect, async (req, res) => {
   const { groupId } = req.query;
+
+  if (!groupId) {
+    return res.json([]);
+  }
+
   const store = readStore();
 
   try {

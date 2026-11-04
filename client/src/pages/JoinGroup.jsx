@@ -48,6 +48,7 @@ function JoinGroup() {
         { headers: { Authorization: `Bearer ${authToken}` } }
       );
       setSuccess(true);
+      localStorage.removeItem('trustcircle-pending-invite');
       
       // Update active group context
       localStorage.setItem('trustcircle-active-group', response.data.groupId);

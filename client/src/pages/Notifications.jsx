@@ -17,7 +17,7 @@ function Notifications() {
   const { groups } = useGroups();
   const [activeGroupId, setActiveGroupId] = useState(() => localStorage.getItem('trustcircle-active-group') || '');
   const [filter, setFilter] = useState('all');
-  const [groupFilterMode, setGroupFilterMode] = useState('all'); // 'all' or 'active'
+  const [groupFilterMode, setGroupFilterMode] = useState('active'); // Default to current circle
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [markingAll, setMarkingAll] = useState(false);
@@ -40,7 +40,11 @@ function Notifications() {
       const res = await axios.get(url, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setNotifications(res.data);
+      // When in active circle mode, ensure only notifications for this circle are shown
+      const list = groupFilterMode === 'active' && activeGroupId
+        ? (res.data || []).filter((n) => n.groupId === activeGroupId || n.groupId?.toString() === activeGroupId?.toString())
+        : (res.data || []);
+      setNotifications(list);
     } catch (err) {
       console.error('Failed to load real notifications:', err);
     } finally {
@@ -58,16 +62,19 @@ function Notifications() {
     }
 
     socket.on('new_notification', (notif) => {
-      if (!activeGroupId || notif.groupId === activeGroupId || notif.groupId?.toString() === activeGroupId?.toString()) {
-        setNotifications((prev) => {
-          if (prev.some((n) => n._id === notif._id)) return prev;
-          return [notif, ...prev];
-        });
+      if (groupFilterMode === 'active' && activeGroupId && notif.groupId !== activeGroupId && notif.groupId?.toString() !== activeGroupId?.toString()) {
+        return; // Ignore other groups' notifications
       }
+      setNotifications((prev) => {
+        if (prev.some((n) => n._id === notif._id)) return prev;
+        return [notif, ...prev];
+      });
     });
 
     socket.on('receive_message', (msg) => {
-      // Live chat message fallback notification
+      if (groupFilterMode === 'active' && activeGroupId && msg.groupId !== activeGroupId) {
+        return; // Ignore other groups' messages
+      }
       const chatNotif = {
         _id: `live_${msg.id || Date.now()}`,
         groupId: msg.groupId,
@@ -80,12 +87,7 @@ function Notifications() {
         createdAt: new Date().toISOString(),
         read: false,
       };
-      setNotifications((prev) => {
-        if (prev.some((n) => n.message === chatNotif.message && Math.abs(new Date(n.createdAt || 0) - new Date(chatNotif.createdAt)) < 3000)) {
-          return prev;
-        }
-        return [chatNotif, ...prev];
-      });
+      setNotifications((prev) => [chatNotif, ...prev]);
     });
 
     return () => {
@@ -93,7 +95,7 @@ function Notifications() {
       socket.off('receive_message');
       socket.disconnect();
     };
-  }, [token, activeGroupId, groupFilterMode]);
+  }, [token, groupFilterMode, activeGroupId]);
 
   const handleMarkAsRead = async (id) => {
     try {
@@ -169,8 +171,15 @@ function Notifications() {
     return type === filter;
   };
 
-  const filtered = notifications.filter(matchesFilter);
-  const unreadCount = notifications.filter(n => !n.read).length;
+  const filtered = notifications.filter((item) => {
+    if (groupFilterMode === 'active' && activeGroupId) {
+      if (item.groupId && item.groupId !== activeGroupId && item.groupId?.toString() !== activeGroupId?.toString()) {
+        return false;
+      }
+    }
+    return matchesFilter(item);
+  });
+  const unreadCount = filtered.filter(n => !n.read).length;
 
   const getTypeStyle = (item) => {
     const type = (item.type || '').toLowerCase();
